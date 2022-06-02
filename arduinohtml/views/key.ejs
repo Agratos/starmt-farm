@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>키 확인</title>
+    <link rel="stylesheet" href="/main.css">
+    <script type="text/javascript">
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', '/getuserkey');
+      xhr.onreadystatechange = function(){ 
+        if(xhr.readyState === 4 && xhr.status === 200){ 
+          let key = [];
+          key = JSON.parse( xhr.responseText )
+          console.log("user: ", key[0]);
+          if(key[0] != null)
+          {
+            document.getElementById('userkey').innerHTML = '키확인: '+ key[0];
+            
+          } else {
+            document.getElementById('userkey').innerHTML = "키를 생성 해주세요";
+          }
+        }
+      }
+      xhr.send();   
+    </script>
+  </head>
+</html>
+<div id="userkey"></div>
+<p></p>
+<p></p>
+<button><a href="/arduino">돌아가기</a></button>

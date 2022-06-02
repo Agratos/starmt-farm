@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <title> Community </title>
+  <link rel="stylesheet" type="text/css" href="/css/community.css">
+  <script type="text/javascript"></script>
+</head>
+<body>
+  <div class="container">
+    <h1><%= user %>의 블로그</h1>
+    <div id="mainbtn">
+      <button><a href="/community">전체보기</a></button>
+      <button ><a href="/auth/logout">로그아웃</a></button><br>
+    </div>
+    <hr>
+    <% community.forEach(community => { %>
+      <div id="card">
+        <div class="container">
+          <div class="column">
+            <div class="post-card">
+              <div class="post-img">
+                <img src=<%= community.thumbnailURL %> />
+              </div>
+              <div class="post-content">
+                <a href="community/<%= community.id %>">
+                  <div class="keyword"><%= community.keyword %></div>
+                  <h1 class="title"><%= community.title %></h1>
+                  <h2 class="Writer"><a href="community/userdetail/<%= community.user %>"><%= community.user %></a></h2>
+                  <p class="description"><%= community.description %></p>
+                  <div class="post-meta">
+                    <span class="timestamp">
+                      <i class="fa fa-clock-o"></i>
+                      <%= community.createdAt.toLocaleString() %>
+                    </span>
+                    <span class="comments">
+                      <i class="fa fa-comments"></i>
+                      <a href="community/delete/<%= community.id %>"> 삭제</a>
+                    </span>
+                  </div>
+                </a>
+              </div>
+            </div>
+            
+          </div>
+      </div>
+  <% }) %>
+  </div>
+</body> 

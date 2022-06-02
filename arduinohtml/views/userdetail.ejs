@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <title> Community </title>
+  <link rel="stylesheet" type="text/css" href="/userdetail.css">
+  <script type="text/javascript"></script>
+</head>
+<body>
+  <div class="container">
+    <h1><%= user %> 의 블로그</h1>
+    <button><a href="/community">전체보기</a></button>
+    <button ><a href="/auth/logout">로그아웃</a></button><br>
+    <hr>
+    <% community.forEach(community => { %>
+        <div id="card">
+            <h1><%= community.title %></h1>
+            <p><%= community.user %></p>
+            <%= community.createdAt.toLocaleString() %><br><br>
+            <button><a href="../<%= community.id %>">자세히 보기</a></button>
+            <button><a href="../delete/<%= community.id %>">삭제</a></button>
+        </div>
+    <% }) %>
+  </div>
+</body> 

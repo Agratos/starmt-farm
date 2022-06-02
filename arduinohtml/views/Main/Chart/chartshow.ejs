@@ -1,0 +1,31 @@
+<p>
+    <input type="datetime-local" id="timeset_start" value="<%= timeset[0]%>" min="<%= minmax[0]%>" max="<%= minmax[1]%>"/> ~
+    <input type="datetime-local" id="timeset_end" value="<%= timeset[1]%>" min="<%= minmax[0]%>" max="<%= minmax[1]%>"/>
+    
+  </p>
+  <p id="chatcheckbox">
+    <% for(var x = 0; x < channel.index.length ; x++) {%>
+      <% for(var y = 0 ; y < 9 ; y++) { %>
+        <% if(channel.index[x] == y) {%> 
+          <% if(y == 1) {%>
+            <%= channel.field1 %><input id="<%= y %>", type="checkbox"  value="<%= y%>" checked>
+          <%} else if(y == 2) {%>
+            <%= channel.field2 %><input id="<%= y %>", type="checkbox" value="<%= y%>" checked>
+          <%} else if(y == 3) {%>
+            <%= channel.field3 %><input id="<%= y %>", type="checkbox" value="<%= y%>" checked>
+          <%} else if(y == 4) {%>
+            <%= channel.field4 %><input id="<%= y %>", type="checkbox" value="<%= y%>" checked>
+          <%} else if(y == 5) {%>
+            <%= channel.field5 %><input id="<%= y %>", type="checkbox" value="<%= y%>" checked>
+          <%} else if(y == 6) {%>
+            <%= channel.field6 %><input id="<%= y %>", type="checkbox" value="<%= y%>" checked>
+          <%} else if(y == 7) {%>
+            <%= channel.field7 %><input id="<%= y %>", type="checkbox" value="<%= y%>" checked>
+          <%} else if(y == 8) {%>
+            <%= channel.field8 %><input id="<%= y %>", type="checkbox" value="<%= y%>" checked>
+          <%}%>      
+        <%}%>
+      <%}%>
+    <%}%>
+    <button onclick="drawChart(this.id)" id="<%= channel.channelKey%>">확인</button>
+  </p>

@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>아두이노 서버</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript">
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', '/getuser');
+      xhr.onreadystatechange = function(){ 
+        if(xhr.readyState === 4 && xhr.status === 200){ 
+          let userId = [];
+          userId = JSON.parse( xhr.responseText )
+          document.getElementById('welcome').innerHTML= userId[0] ;
+        }
+      }
+      xhr.send();   
+      
+      function split(str){
+        return str.split(",")
+      }
+    </script>
+
+    
+    <script type="text/javascript">
+      function gettime(channel){
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/sendtime');
+        var channel = {
+          channel : channel
+        }
+
+        xhr.onreadystatechange = function(){ 
+          if(xhr.readyState === 4 && xhr.status === 200){ 
+            console.log("성공 했는지 확인2: ", xhr.responseText);
+            let time = JSON.parse(xhr.responseText);
+            document.getElementById('table').innerHTML = xhr.responseText;
+          }
+        }
+        xhr.setRequestHeader('Content-type', "application/json");
+        xhr.send(JSON.stringify(channel));
+      }
+
+      function getdata(channel){
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/sendtemperature');
+        var channel = {
+          channel : channel,
+          // start : document.getElementById('timeset_zero').value ,
+          // end : document.getElementById('timeset_zero').value
+        }
+        xhr.onreadystatechange = function(){ 
+          if(xhr.readyState === 4 && xhr.status == 200){ 
+            //console.log("성공 했는지 확인: ", xhr.responseText);
+            document.getElementById('table').innerHTML = xhr.responseText;
+          }
+        }
+        xhr.setRequestHeader('Content-type', "application/json");
+        xhr.send(JSON.stringify(channel));
+      }
+
+      function sendtime(channel){
+        //console.log("channel 확인 : ", channel);
+        //console.log("timeset_start 확인 : ", document.getElementById('timeset_start').value);
+        //console.log("timeset_end 확인 : ", document.getElementById('timeset_end').value);
+        var index = [];
+        for(var i = 1 ; i < 9; i++)
+        {
+          if(document.getElementById(i) != null && document.getElementById(i).checked == true)
+          {
+            index.push(document.getElementById(i).value);
+          }
+        }
+        console.log("index check : ", index);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/sendtime');
+        var channel = {
+          channel : channel,
+          start : document.getElementById('timeset_start').value ,
+          end : document.getElementById('timeset_end').value,
+          min : document.getElementById('timeset_start').min,
+          max : document.getElementById('timeset_end').max,
+          check : index,
+        }
+        xhr.onreadystatechange = function(){ 
+          if(xhr.readyState === 4 && xhr.status === 200){ 
+            //console.log("성공 했는지 확인: ", xhr.responseText);
+            document.getElementById('table').innerHTML = xhr.responseText;
+            for(var i = 1 ; i < 9  ; i++)
+            {
+              if(document.getElementById(i) != null)
+              {
+                document.getElementById(i).checked = false;  
+              }
+            }
+            console.log("index.length:",index.length);
+            for(var x = 0 ; x< index.length ; x++)
+            {
+              document.getElementById(index[x]).checked = true;
+            }
+          }
+        }
+        xhr.setRequestHeader('Content-type', "application/json");
+        xhr.send(JSON.stringify(channel));
+      }
+
+      function managerchannel(){
+        var xhr = new XMLHttpRequest(); 
+        xhr.open('POST', '/managerchannel');
+        xhr.onreadystatechange = function(){ 
+          if(xhr.readyState === 4 && xhr.status === 200){ 
+            document.getElementById('changehtml').innerHTML = xhr.responseText;
+          }
+        }
+        xhr.send();
+      }
+
+      function makechannel(){
+        var xhr = new XMLHttpRequest(); 
+        xhr.open('POST', '/makechannel');
+        xhr.onreadystatechange = function(){ 
+          if(xhr.readyState === 4 && xhr.status === 200){ 
+            document.getElementById('channel_main').innerHTML = xhr.responseText;
+          }
+        }
+        xhr.send();
+      }
+
+      function managerchart(){
+        var xhr = new XMLHttpRequest(); 
+        xhr.open('POST', '/managerchart');
+        xhr.onreadystatechange = function(){ 
+          if(xhr.readyState === 4 && xhr.status === 200){ 
+            document.getElementById('changehtml').innerHTML = xhr.responseText;
+          }
+        }
+        xhr.send();
+      }
+
+      function managercam(){
+        var xhr = new XMLHttpRequest(); 
+        xhr.open('POST', '/managercam');
+        xhr.onreadystatechange = function(){ 
+          if(xhr.readyState === 4 && xhr.status === 200){ 
+            document.getElementById('changehtml').innerHTML = xhr.responseText;
+          }
+        }
+        xhr.send();
+      }
+
+      function makecam(){
+        var xhr = new XMLHttpRequest(); 
+        xhr.open('POST', '/makecam');
+        xhr.onreadystatechange = function(){ 
+          if(xhr.readyState === 4 && xhr.status === 200){ 
+            document.getElementById('rtspmain').innerHTML = xhr.responseText;
+          }
+        }
+        xhr.send();
+      }
+
+      
+      
+    </script>
+
+    <!--티쳐블 머신 js-->
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
+<script type="text/javascript">
+      const URL1 = "./feed/";
+      let model1, labelContainer1, maxPredictions1;
+      const URL2 = "./egg/";
+      let model2, labelContainer2, maxPredictions2;
+      async function init() {
+          let ip = document.getElementById('arduinoIp').value;
+          console.log(ip);
+          const modelURL1 = URL1 + "model1.json";
+          const metadataURL1 = URL1 + "metadata1.json";
+          model1 = await tmImage.load(modelURL1, metadataURL1);
+          maxPredictions1 = model1.getTotalClasses();
+          labelContainer1 = document.getElementById("label-container2");
+          for (let i = 0; i < maxPredictions1; i++) {
+              labelContainer1.appendChild(document.createElement("div"));
+          }
+
+          //2 = egg
+          const modelURL2 = URL2 + "model2.json";
+          const metadataURL2 = URL2 + "metadata2.json";
+          model2 = await tmImage.load(modelURL2, metadataURL2);
+          maxPredictions2 = model2.getTotalClasses();
+          labelContainer2 = document.getElementById("label-container1");
+          for (let i = 0; i < maxPredictions2; i++) {
+              labelContainer2.appendChild(document.createElement("div"));
+          }
+      }
+  
+      async function loop1() {
+        await predict1();
+        window.requestAnimationFrame(loop1);
+      }
+
+      async function loop2() {
+        await predict2();
+        window.requestAnimationFrame(loop2);
+      }
+
+
+      let run = 0;
+      async function predict1() {
+        let img = document.getElementById("canvas")
+        const prediction = await model1.predict(img, false);
+          for (let i = 0; i < maxPredictions1; i++) {
+          const classPrediction =
+              prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+          labelContainer1.childNodes[i].innerHTML = classPrediction;
+          if(prediction[i].probability.toFixed(2) > 0.96)
+          {
+            console.log("예측함 : ",prediction[i].className);
+            if(prediction[i].className == "feed x")
+              {
+                if(run == 0)
+                {
+                  run++;
+                  var xhr = new XMLHttpRequest();
+                  let ip = document.getElementById('arduinoIp').value;
+                  xhr.open('GET', 'http://'+ip+'/feed');
+                  //let url = "pos="+servodata+"d";
+                  //xhr.setRequestHeader('header', 'value');
+                  xhr.onreadystatechange = function(){ 
+                    if(xhr.readyState === 4 && xhr.status === 200)
+                    {
+                      run =0;
+                    }
+                    else
+                    {
+                      run = 0;
+                    }
+                  }
+                  xhr.send();
+                }
+                else
+                {
+                  console.log("사료를 주는 중입니다.");
+                }
+              }  
+            }
+          }   
+      }
+      //egg
+      async function predict2() {
+        let img = document.getElementById("canvas")
+        const prediction = await model2.predict(img, false);
+          for (let i = 0; i < maxPredictions2; i++) {
+          const classPrediction =
+              prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+          labelContainer2.childNodes[i].innerHTML = classPrediction;
+          if(prediction[i].probability.toFixed(2) >= 1)
+          {
+            console.log("예측함 : ",prediction[i].className);
+            if(prediction[i].className == "egg o")
+              {
+                if(run == 0)
+                {
+                  run++;
+                  var xhr = new XMLHttpRequest();
+                  let ip = document.getElementById('arduinoIp').value;
+                  xhr.open('GET', 'http://'+ip+'/egg');
+                  //let url = "pos="+servodata+"d";
+                  //xhr.setRequestHeader('header', 'value');
+                  xhr.onreadystatechange = function(){ 
+                    if(xhr.readyState === 4 && xhr.status === 200)
+                    {
+                      run =0;
+                    }
+                    else
+                    {
+                      run = 0;
+                    }
+                  }
+                  xhr.send();
+                }
+                else
+                {
+                  console.log("달걀 수거중입니다.");
+                }
+              }  
+            }
+          }   
+      }
+
+  </script>
+
+
+  </head>
+  <body>
+    
+<div id="container">
+  <div id="sideMenu">
+    <h1 id="welcome">Sales Report</h1>
+
+    <ul class="menu">
+      <li><a href="/arduino" id="home">데이터 관리</a></li>
+      <li><a onclick="managerchannel()" clss="link">체널 관리</a></li>
+      <li><a href="/auth/key" class="link">키 생성</a></li>
+      <li><a onclick="managerchart()" class="link">그래프</a></li>
+      <li><a onclick="managercam()" class="link">카메라</a></li>
+    </ul>
+
+    <ul class="menu">
+      <li>커뮤니티</li>
+      <li><a href="/community" class="link">게시판</a></li>
+      <li><a href="/softro" class="link">블록클리</a></li>
+      <li><a onclick="teachablem()" class="link">티쳐블</a></li>
+      <li><a href="/servo" class="link">Servo</a></li>
+    </ul>
+
+    <div class="addCategory"><a href="/auth/logout" id="logout">로그아웃</a></div>
+  </div>
+  <div id="content">
+     <!-- 맨처음 timeset을 보내기위해 가상의 데이터를 만들어 준다. -->
+    <!-- <div style="display:none"><input type="datetime-local" id="timeset_zero" value="0000-00-00T00:00:00"></div> -->
+
+    <!-- temperaturetable의 형식을 가져와 데이터를 뿌린다. -->
+    <div id="keycheck">
+      <% if (user.userkey == null) {%>
+        Key를 만들어 주세요.
+      <%} else {%>
+        Key: <%= user.userkey %>
+      <%}%>
+    </div>
+
+    <div id="changehtml" class="inform">
+      <main>
+        <% if(channel_btn != null) {%>
+          <% for(var i = 0 ; i < channel_btn.length ; i++) {%>
+            <button onclick="getdata(this.id)" id="<%= channel_btn[i][1] %>" class="channelb" value="<%= channel_btn[i][1]%>"><%= channel_btn[i][0]%></button>
+          <%}%>
+        <%}%>
+      </main>
+      <div id="table"></div>
+    </div>
+
+  </div>
+</div>
+
+
+</div>
+
+<script language="javascript">
+  function checkDisable()
+  {
+      if(document.getElementById('index1').checked == true){
+          document.getElementById('field1_name').disabled = false ;
+          document.getElementById('field1_name').value = "field 1" ;
+      }else{
+          document.getElementById('field1_name').disabled = true ;
+          document.getElementById('field1_name').value = "" ;
+      }
+      if(document.getElementById('index2').checked == true){
+          document.getElementById('field2_name').disabled = false ;
+          document.getElementById('field2_name').value = "field 2" ;
+      }else{
+          document.getElementById('field2_name').disabled = true ;
+          document.getElementById('field2_name').value = "" ;
+      }
+      if(document.getElementById('index3').checked == true){
+          document.getElementById('field3_name').disabled = false ;
+          document.getElementById('field3_name').value = "field 3" ;
+      }else{
+          document.getElementById('field3_name').disabled = true ;
+          document.getElementById('field3_name').value = "" ;
+      }
+      if(document.getElementById('index4').checked == true){
+          document.getElementById('field4_name').disabled = false ;
+          document.getElementById('field4_name').value = "field 4" ;
+      }else{
+          document.getElementById('field4_name').disabled = true ;
+          document.getElementById('field4_name').value = "" ;
+      }
+      if(document.getElementById('index5').checked == true){
+          document.getElementById('field5_name').disabled = false ;
+          document.getElementById('field5_name').value = "field 5" ;
+      }else{
+          document.getElementById('field5_name').disabled = true ;
+          document.getElementById('field5_name').value = "" ;
+      }
+      if(document.getElementById('index6').checked == true){
+          document.getElementById('field6_name').disabled = false ;
+          document.getElementById('field6_name').value = "field 6" ;
+      }else{
+          document.getElementById('field6_name').disabled = true ;
+          document.getElementById('field6_name').value = "" ;
+      }
+      if(document.getElementById('index7').checked == true){
+          document.getElementById('field7_name').disabled = false ;
+          document.getElementById('field7_name').value = "field 7" ;
+      }else{
+          document.getElementById('field7_name').disabled = true ;
+          document.getElementById('field7_name').value = "" ;
+      }
+      if(document.getElementById('index8').checked == true){
+          document.getElementById('field8_name').disabled = false ;
+          document.getElementById('field8_name').value = "field 8" ;
+      }else{
+          document.getElementById('field8_name').disabled = true ;
+          document.getElementById('field8_name').value = "" ;
+      }
+  }
+</script>
+
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load('current', {'packages':['line']});
+    function drawChart(channel) {
+      var data = new google.visualization.DataTable()
+      var xhr1 = new XMLHttpRequest();
+      var index = [];
+
+      
+
+      for(var i = 1 ; i < 9; i++)
+      {
+        if(document.getElementById(i) != null && document.getElementById(i).checked == true)
+        {
+          console.log("whereisit", document.getElementById(i).value);
+          index.push(document.getElementById(i).value);
+        }
+      }
+
+      var channel = { 
+          channel : channel,
+          start : document.getElementById('timeset_start').value ,
+          end : document.getElementById('timeset_end').value,
+          min : document.getElementById('timeset_start').min,
+          max : document.getElementById('timeset_end').max,
+          check : index,
+      }
+      console.log("channel", channel)
+      xhr1.open('POST', '/chartdata'); 
+      xhr1.onreadystatechange = function(){ //통신하며 상태가 변할 때마다 onreadystatechange호출
+        if(xhr1.readyState === 4 && xhr1.status === 200){ //통신이 완료했고 성공했을 경dn
+          let channelData = JSON.parse(xhr1.responseText)
+          console.log("받은거 확인 : ", channelData);
+            let checkFieldLength = channelData[0].length; // field가 몇개인지
+            let checkDataLength = channelData.length; // 총 몇개의 데이터가 들어왔는지
+            data.addColumn('string', 'Time');     
+            for ( let i = 0 ; i < checkFieldLength-1 ; i++){ // 필드가 몇개인지 1 / 5
+              data.addColumn('number', channelData[checkDataLength-1][i]);
+            }
+            let trans = [];
+            for ( let x = 0; x < checkDataLength-1 ; x++){
+              for ( let y = 0; y < checkFieldLength ; y++){
+                if ( y ==0 )
+                {
+                  //channelData[x][0] = channelData[x][0].toLocaleString();
+                  continue;
+                }
+                channelData[x][y] = Number(channelData[x][y]);
+                //console.log("입력 데이터 확인 : ", channelData[x][y])
+              }
+              trans.push(channelData[x]);
+            }
+            data.addRows(trans);
+            if(typeof data.fg[0] == "undefiend" || data.fg[0] == null)
+            {
+              return document.getElementById('chart_bottom').innerText = "조회할 데이터가 없습니다.";
+            } else {
+              const options = {  
+                series: {
+                  0: { color: 'F60411' },
+                  1: { color: 'FF5900' },
+                  2: { color: 'FEEB20' },
+                  3: { color: '00E000' },
+                  4: { color: '0025FC' },
+                  5: { color: '110082' },
+                  6: { color: '9600F4' },
+                  7: { color: 'FF63DA' },
+                },
+                width: 900,
+                height: 500,
+                axes: {x: { 0: {side: 'bottom'}}},
+                backgroundColor: '#313348',
+              
+                chartArea: {
+                  backgroundColor: '#313348',
+                },
+
+              };
+              var chart = new google.charts.Line(document.getElementById('chart_bottom'));
+              chart.draw(data, google.charts.Line.convertOptions(options));
+              //ejs 값 을 변경 하는곳
+            }    
+          }
+         }
+    xhr1.setRequestHeader('Content-type', "application/json");
+    xhr1.send(JSON.stringify(channel)) 
+  }
+
+  function gettime(channel){
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/getchartdata');
+        var channel = {
+          channel : channel
+        }
+        console.log("channel : ", channel);
+        xhr.onreadystatechange = function(){ 
+          if(xhr.readyState === 4 && xhr.status === 200){ 
+            //console.log("성공 했는지 확인2: ", xhr.responseText);
+            //let time = JSON.parse(xhr.responseText);
+            document.getElementById('chart_top').innerHTML = xhr.responseText;
+          }
+        }
+        xhr.setRequestHeader('Content-type', "application/json");
+        xhr.send(JSON.stringify(channel));
+      }
+</script>
+
+
+<script type="text/javascript" src="jsmpeg.min.js"></script>
+<script type="text/javascript">
+  function taportsp(rtsp,arduinoIp){
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/sendrtsp');
+    console.log("rtsp : ", rtsp);
+    console.log("arduinoIp : ",arduinoIp);
+      var send = {
+        rtsp : rtsp,
+      }
+      xhr.onreadystatechange = function(){ 
+        if(xhr.readyState === 4 && xhr.status === 200){ 
+          player = new JSMpeg.Player('ws://localhost:9999', {
+            canvas: document.getElementById('canvas') // Canvas should be a canvas DOM element
+          });
+          document.getElementById('arduinoIp').value =arduinoIp;
+        }
+      }
+    xhr.setRequestHeader('Content-type', "application/json");
+    xhr.send(JSON.stringify(send));
+  }
+</script>
+
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript">
+  $(function(){
+      $("#makertspbtn").submit(function(event){
+        console.log("순서상2");
+        var xhr = new XMLHttpRequest(); 
+        xhr.open('POST', '/managercam');
+        xhr.onreadystatechange = function(){ 
+          if(xhr.readyState === 4 && xhr.status === 200){ 
+            document.getElementById('changehtml').innerHTML = xhr.responseText;
+          }
+        }
+        xhr.send();
+      });
+  });
+  
+  function funcmanagerrtsp(){
+        var xhr = new XMLHttpRequest(); 
+        xhr.open('GET', '/managerrtsp');
+        xhr.onreadystatechange = function(){ 
+          if(xhr.readyState === 4 && xhr.status === 200){ 
+            document.getElementById('rtspmain').innerHTML = xhr.responseText;
+          }
+        }
+        xhr.send();
+      }
+
+  function teachablem(){
+    var xhr = new XMLHttpRequest(); 
+        xhr.open('GET', '/teachablem');
+        xhr.onreadystatechange = function(){ 
+          if(xhr.readyState === 4 && xhr.status === 200){ 
+            document.getElementById('changehtml').innerHTML = xhr.responseText;
+          }
+        }
+        xhr.send();
+  }
+</script>
+</body>
+</html>

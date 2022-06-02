@@ -1,0 +1,59 @@
+<link rel="stylesheet" href="css/login.css">
+<p class="tip"></p>
+<div class="cont">
+  <div class="form sign-in">
+    <h2>Welcome</h2>
+    <form id="login-form" action="/auth/login" method="post">
+        <label>
+          <span>Email</span>
+          <input id="email" type="email" name="email" required autofocus />
+        </label>
+        <label>
+          <span>Password</span>
+          <input id="password" type="password" name="password" required />
+        </label>
+        <p class="forgot-pass">Forgot password?</p>
+        <button id="login" type="submit" class="submit">Sign In</button>
+    </form>
+  </div>
+  <div class="sub-cont">
+    <div class="img">
+      <div class="img__text m--up">
+        <h2>새로 오셨나요?</h2>
+        <p>계정을 생성하여 사이트를<br/>이용해보세요!</p>
+      </div>
+      <div class="img__text m--in">
+        <h2>계정이 있나요?</h2>
+        <p>로그인하여 여러 기능을<br/>사용해보세요!</p>
+      </div>
+      <div class="img__btn">
+        <span class="m--up">Sign Up</span>
+        <span class="m--in">Sign In</span>
+      </div>
+    </div>
+    <div class="form sign-up">
+      <h2>join us</h2>
+      <form id="join-form" action="/auth/join" method="post">
+        <label>
+          <span>Email</span>
+          <input id="join-email" type="email" name="email"/>
+        </label>
+        <label>
+          <span>Password</span>
+          <input type="password" />
+        </label>
+        <label>
+          <span>Password check</span>
+          <input id="join-password" type="password" name="password"/>
+        </label>
+        <button id="join-btn" type="submit" class="submit">Sign Up</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+    document.querySelector('.img__btn').addEventListener('click', function() {
+        document.querySelector('.cont').classList.toggle('s--signup');
+    });
+</script>

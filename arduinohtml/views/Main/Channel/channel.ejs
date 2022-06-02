@@ -1,0 +1,24 @@
+<h2>Channel Key 확인</h2>
+<p>
+<button id="mk"><a  onclick="makechannel()">채널 만들기</a></button>
+</p>
+<div id="channel_main">
+  <table id="ch-list">
+    <tr>
+      <th>Channel</th>
+      <th>Key</th>
+      <th></th>
+    </tr>
+    <% if (channeldata != 0){%>
+      <% for (var i = 0 ; i < channeldata.length; i++) { %>
+        <tr>
+          <td><%= channeldata[i][0] %></td>
+          <td><%= channeldata[i][1] %></td>
+          <td><button><a href="channelDelete/?channel=<%= channeldata[i][1] %>">삭제</a></button></td>
+        </tr>
+      <%}%>
+    <%}%>
+  </table>
+</div>
+<p></p>
+  

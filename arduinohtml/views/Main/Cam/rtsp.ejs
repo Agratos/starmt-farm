@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <title> rtsp  </title>
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+<h2>Tapo C200 Streaming</h2><br/>
+<p>
+  <button><a href="/arduino">메인으로</a></button>
+  <button><a onclick="makecam()">Rtsp 등록</a></button>
+  <button><a onclick="funcmanagerrtsp()">Rtsp 관리</a></button>
+  
+  <h2>Teachable Machine Image Model</h2><br/><br/>
+  <button type="button" onclick="init()">시작하기</button>
+  <button type="button" onclick="loop1()">모이 예측하기</button>
+  <button type="button" onclick="loop2()">달걀 예측하기</button>
+  <input type="text" id="arduinoIp" name="arduinoIp" required="true"><br/>
+</p>
+
+<div id="rtspmain">
+<p>
+  <% console.log("rtsp : ", rtsp[0])%>
+  <% if(rtsp[0].url != "" ) {%>
+    <% for(var i = 0 ; i < rtsp.length ; i++) {%>
+      <button onclick="taportsp(this.id,this.value)" id="<%= rtsp[i].url %>"  value="<%= rtsp[i].arduinoIp%>"><%= rtsp[i].name%></button>
+    <%}%>
+  <%}%>
+</p>
+  <div>
+    <canvas id="canvas"></canvas>
+    <div id="label-container1"></div>
+    <div id="label-container2"></div>
+  </div>
+</div>
+</body>

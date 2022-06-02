@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <title> rtsp  </title>
+  <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+  <script type="text/javascript" src="jsmpeg.min.js"></script>
+  <script type="text/javascript">
+
+    
+    function taportsp(rtsp){
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/sendrtsp');
+      console.log("rtsp : ", rtsp);
+        var send = {
+          rtsp : rtsp,
+        }
+        xhr.onreadystatechange = function(){ 
+          if(xhr.readyState === 4 && xhr.status === 200){ 
+            player = new JSMpeg.Player('ws://localhost:9999', {
+              canvas: document.getElementById('canvas') // Canvas should be a canvas DOM element
+            })
+          }
+        }
+      xhr.setRequestHeader('Content-type', "application/json");
+      xhr.send(JSON.stringify(send));
+    }
+
+
+</script>
+
+<h1>Tapo C200 Streaming</h1>
+<p>
+  <button><a href="/arduino">메인으로</a></button>
+  <button><a href="/makertsp">Rtsp 등록</a></button>
+  <button><a href="/managerrtsp">Rtsp 관리</a></button>
+</p>
+
+<p>
+  <% console.log("rtsp : ", rtsp[0])%>
+  <% if(rtsp[0].url != "" ) {%>
+    <% for(var i = 0 ; i < rtsp.length ; i++) {%>
+      <button onclick="taportsp(this.id)" id="<%= rtsp[i].url %>"  value="<%= rtsp[i]._id%>"><%= rtsp[i].name%></button>
+    <%}%>
+  <%}%>
+</p>
+<div>
+  <canvas id="canvas"></canvas>
+</div>
+</body>

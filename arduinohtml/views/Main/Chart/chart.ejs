@@ -1,0 +1,12 @@
+<h2>Graph</h2><br/>
+<p>
+    <% if(channel_btn != null) {%>
+      <% for(var i = 0 ; i < channel_btn.length ; i++) {%>
+        <button onclick="gettime(this.id)" id="<%= channel_btn[i][1] %>"  value="<%= channel_btn[i][1]%>"><%= channel_btn[i][0]%></button>
+      <%}%>
+    <%}%>
+  </p>
+  <div id="chart_top"></div>
+  <div id="chart_bottom"></div>
+
+

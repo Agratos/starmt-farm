@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  
+<head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="/community.css"/>
+    <title> community </title>
+  </head>
+  <body>
+    <div class="pcontainer">
+      <h1>편집중 : <%= community.title %></h1>
+      <form action="/community/resave/<%= community.id %>" method="post">
+        <%- include('_form_new') %>
+      </form>
+    </div>
+  </body>
+</html>

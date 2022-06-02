@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <title> show  </title>
+  <link rel="stylesheet" href="/community.css">
+  <link rel="stylesheet" href="/community.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/default.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+    <div>
+        <h1>Title : <%= community.title %></h1>
+        작성자 :<a href="/community/userdetail/<%= community.user %>"><%= community.user %></a><br>
+        <p><%= community.createdAt.toLocaleString() %></p>
+        <button><a href="/community"> 돌아가기 </a></button>
+        <button><a href="/community/edit/<%= community._id %>">편집하기</a></button>
+    </div>
+    <hr>
+    <div>
+        <%- community.makrdownHtml %>
+    </div>
+</body>

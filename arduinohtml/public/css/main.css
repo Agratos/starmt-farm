@@ -1,0 +1,494 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:100,300,400,700);
+
+html {
+  height: 100%;
+  font-family: 'Lato', sans-serif;
+}
+body {
+  background: #000017ec;
+  background-repeat: no-repeat;
+  font-family: 'Open Sans', sans-serif;
+}
+* {
+  box-sizing: border-box;
+}
+#container {
+  background: #191829e3;
+  border-radius: 4px;
+}
+
+/* Side Bar */
+#sideMenu {
+  left: 0%;
+  width: 240px;
+  height: 100%;
+  padding: 30px;
+  border-right: 1px solid rgba(255, 255, 255, .5);
+  position: fixed;
+  color: #fff;
+}
+.menu {
+  list-style: none;
+  margin:  24px 0;
+  padding: 0;
+}
+.menu li {
+  display: block;
+  height: 30px;
+  width: 100%;
+  line-height: 30px;
+  font-size: 14px;
+  font-weight: 200;
+  color: rgba(255, 255, 255, .6);
+  position: relative;
+}
+.menu a:hover {
+  color: #239ae3;
+}
+.menu li:first-child, #logout  {
+  height: 35px;
+  line-height: 35px;
+  font-size: 16px;
+  font-weight: 400;
+  color: #fff;
+}
+.addCategory {
+  font-size: 13px;
+  font-weight: 200;
+  color: rgba(255, 255, 255, .2);
+}
+.addCategory:hover {
+  color: #fff;
+}
+
+/* Content */
+#content {
+  width: calc(100% - 240px);
+  position: absolute;
+  left: 240px;
+  height: 100%;
+  padding: 25px;
+}
+#titleBar {
+  height: 36px;
+  margin-bottom: 30px;
+}
+#profilePic {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #999;
+  float: right;
+  margin-top: -8px;
+  margin-left: 14px;
+  overflow: hidden;
+}
+#profilePic img {
+  width: 100%;
+}
+.controls {
+  display: block;
+  width: 70px;
+  height: 20px;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 10px;
+  font-weight: 300;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 20px;
+  float: right;
+  border-radius: 20px;
+}
+.activeControl {
+  background: rgba(255, 255, 255, 0.9);
+  color: #202b33;
+  font-weight: 600;
+}
+#salesData {
+  margin-bottom: 60px;
+}
+#totalSales {
+  height: 120px;
+  position: relative;
+  margin-top: 24px;
+  margin-bottom: 50px;
+}
+#totalSales .col {
+  float: left;
+  width: 33.33%;
+  height: 100%;
+}
+#totalSales .col .progressTitle {
+  float: left;
+  margin-left: 20px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.4);
+}
+.progressBar {
+  float: left;
+  height: 120px;
+  width: 120px;
+  font-size: 40px;
+  text-align: center;
+  line-height: 120px;
+}
+
+
+
+
+
+
+
+
+/* Table */
+
+table {
+  width: 98%;
+  border-collapse: collapse;
+  background: #8f96d42f;
+  border-radius: 0.25em;
+  border-collapse: collapse;
+  font-size: 1em;;
+  margin: 1em;
+}
+th{
+  padding: 0.65em 1em;
+  font-size: 1.25em;
+}
+tr:not(:first-child):hover, tr:not(:first-child+tr):hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+td {
+  height: 40px;
+  line-height: 40px;
+  color: #fff;
+  font-weight: 400;
+  padding: 0.65em 1em;
+}
+
+
+tr:first-child, tr:first-child+tr {
+  border-bottom: 1px solid #364043;
+  color: #E2B842;
+  font-size: 0.85em;
+  font-weight: 600;
+  padding: 0.5em 1em;
+  text-align: left;
+}
+tr:first-child+tr {
+  border-top: 1px solid #364043;
+}
+tbody tr {
+  transition: background 0.25s ease;
+}
+tbody tr:hover {
+  background: #1e1b2e4d;
+}
+#home{
+  color: #fff;
+}
+
+/*button*/
+
+
+
+/* GENERAL BUTTON STYLING */
+button, 
+button #btn
+button::after {
+  -webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+  -o-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+button
+{
+  font-size: 12px;
+  background: none;
+  border: 2px solid #fff;
+  padding: 10px;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: 300;
+  margin-right: 10px;
+  position:relative;
+  text-transform: uppercase;
+}
+
+button::before,
+button::after {
+  background: #fff;
+  content: '';
+  position: absolute;
+  z-index: -1;
+}
+
+button:hover {
+  background-color: #fff;
+  color: #000017ec;
+}
+a:hover{
+  color: #000017ec;
+}
+
+/* BUTTON 1 */
+.btn-1::after {
+  height: 0;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+
+.btn-1:hover:after {
+  height: 100%;
+}
+
+/* 컨텐츠 상단*/
+
+#fieldcolor {
+  color : white;
+}
+
+.checkbutton {
+  padding: 3px;
+  margin-left: 6px;
+}
+
+/* Headers */
+h1 {
+  font-weight: 300;
+  font-size : 16px;
+}
+h2 {
+  float: left;
+  font-size: 19px;
+  font-weight: 200;
+  letter-spacing: 1px;
+  margin: 0;
+  color: rgba(255, 255, 255, .8);
+}
+h3 {
+  float: left;
+  color: #fff;
+  font-size: 32px;
+  font-weight: 300;
+  margin: 0;
+  margin-top: 8%;
+  margin-left: 20px;
+  margin-bottom: 6px;
+}
+
+a, button#btn {
+  text-decoration: none;
+  color: rgba(255, 255, 255, .6);
+}
+.clearFix {
+  clear: both;
+}
+
+#keycheck {
+  font-size: 12px;
+  background: none;
+  border: 2px solid rgba(255, 255, 255, 0.658);
+  padding: 10px;
+  border-radius: 5px;
+  color: rgba(255, 255, 255, 0.767);
+  font-weight: 300;
+  margin-right: 10px;
+  margin-bottom: 20px;
+  position:relative;
+  text-transform: uppercase;
+}
+
+
+/*makechannelkey*/
+/*makeRTSP*/
+
+#mk{
+ padding: 7px;
+ margin-left: 10px;
+}
+
+#makechanneltitle
+{
+  color: rgba(255, 255, 255, .8);
+  font-size: 18px;
+  font-weight: 300;
+  margin-bottom: 15px;
+}
+
+#makechannelform, 
+#makertspform
+{
+  color: rgba(255, 255, 255, .8);
+}
+
+#makechannelform input[type="text"], 
+#makertspform input[type="text"]
+{ 
+  height: auto; /* 높이 초기화 */ 
+  line-height: normal; /* line-height 초기화 */ 
+  padding: .4em .5em; /* 여백 설정 */ 
+}
+
+.makechannelfiled,
+.makertspfield,
+#makechannelform button
+{ 
+  margin: .5em;
+}
+
+#makechannelform button
+{
+  position: relative;
+}
+
+
+/*chartshow*/
+#chatcheckbox 
+{
+  color: #ffffffda;
+}
+
+
+
+ /*티쳐블*/
+
+
+ #teachablediv button { 
+  margin-right: 15px; 
+  margin-bottom: 15px;
+  background-color: #191829e3;
+  color: rgba(255, 255, 255, .6);
+  border: 0;
+  outline: 1;
+  border-radius: 5px;
+  
+}
+#teachablediv a {
+  text-decoration: none;
+  color: black;
+}
+.file-upload {
+  background-color: #ffffff;
+  width: 600px;
+  height: 370px;
+  margin-top: 20px;
+  padding: 20px;
+}
+
+.file-upload-btn {
+  width: 100%;
+  margin: 0;
+  color: #000000;
+  background: #CCE2FF;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  border-bottom: 4px solid #191829e3;
+  transition: all .2s ease;
+  outline: none;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.file-upload-btn:hover {
+  background: #CCE2FF;
+  color: #000000;
+  transition: all .2s ease;
+  cursor: pointer;
+}
+
+.file-upload-btn:active {
+  border: 0;
+  transition: all .2s ease;
+}
+
+.file-upload-content {
+  display: none;
+  text-align: center;
+}
+
+.file-upload-input {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  opacity: 0;
+  cursor: pointer;
+  
+}
+
+.image-upload-wrap {
+  margin-top: 20px;
+  border: 4px dashed #191829e3;
+  position: absolute;
+  width: 35em;
+}
+
+.image-dropping,
+.image-upload-wrap:hover {
+  background-color: #191829e3;
+  border: 4px dashed #191829e3;
+}
+
+.image-title-wrap {
+  padding: 0 15px 15px 15px;
+  color: #222;
+}
+
+.drag-text {
+  text-align: center;
+}
+
+.drag-text h3 {
+  font-weight: 100;
+  text-transform: uppercase;
+  color: #CCE2FF;
+  padding: 60px 0;
+}
+
+.file-upload-image {
+  max-height: 200px;
+  max-width: 200px;
+  margin: auto;
+  padding: 20px;
+}
+
+.remove-image {
+  width: 200px;
+  margin: 0;
+  color: #fff;
+  background: #cd4535;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  border-bottom: 4px solid #b02818;
+  transition: all .2s ease;
+  outline: none;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.remove-image:hover {
+  background: #c13b2a;
+  color: #ffffff;
+  transition: all .2s ease;
+  cursor: pointer;
+}
+
+.remove-image:active {
+  border: 0;
+  transition: all .2s ease;
+}
+
+#label-container1, #label-container2{
+  background-color: #ffffff;
+  width: 600px;
+  height: 70px;
+  margin: 0px;
+  padding: 20px;
+}

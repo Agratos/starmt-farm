@@ -1,0 +1,75 @@
+   <p id="servomain">Channel Settings</p>
+        <div>
+            IP : 
+            <input type="text" id="servoip" name="channel_name" required="true"><br/>
+            <!-- 모이D5<input type="range" min="0" max="180" id="servo1" onchange="servosend(this.id,this.value)"><br/>
+            알수거D6<input type="range" min="0" max="180" id="servo2" onchange="servosend(this.id,this.value)"> -->
+        </div>
+        <div>
+            모이 : <button onclick="servosend(this.id,this.value)" id="servo1" value="180">OFF</button>
+                     <button onclick="servosend(this.id,this.value)" id="servo1" value="120">ON</button>
+        </div>
+        <div>
+            알수거 : <button onclick="servosend(this.id,this.value)" id="servo2" value="0">OFF</button>
+                     <button onclick="servosend(this.id,this.value)" id="servo2" value="79">ON</button>
+        </div>
+
+        <div>
+            앞으로 : <button onclick="stepping(this.id)" id="go">Go</button><br/>
+            뒤로 : <button onclick="stepping(this.id)" id="back">Back</button>
+        </div>
+
+        <div>
+            먹이주기 : <button onclick="stepping(this.id)" id="feed">Feed</button><br/>
+        </div>
+        <div>
+            달걀수거 : <button onclick="stepping(this.id)" id="egg">Egg</button><br/>
+        </div>
+
+    <script>
+        let run = 0;
+        function servosend(servoid,servodata)
+        {
+            var xhr = new XMLHttpRequest();
+            let ip = document.getElementById('servoip').value;
+            xhr.open('GET', 'http://'+ip+'/'+servoid+'='+servodata+'d');
+            //let url = "pos="+servodata+"d";
+            //xhr.setRequestHeader('header', 'value');
+            xhr.send();
+        }
+        function stepping(stepid)
+        {
+            var xhr = new XMLHttpRequest();
+            let ip = document.getElementById('servoip').value;
+            xhr.open('GET', 'http://'+ip+'/'+stepid);
+            //let url = "pos="+servodata+"d";
+            //xhr.setRequestHeader('header', 'value');
+            xhr.send();
+            // if(run == 0)
+            // {
+            //     ++run;
+            //     console.log("보내기 : ", run);
+            //     var xhr = new XMLHttpRequest();
+            //     //let ip = document.getElementById('servoip').value;
+            //     xhr.withCredentials = true;
+            //     xhr.open('GET', 'http://220.68.233.10/back',true);
+            //     //let url = "pos="+servodata+"d";
+            //     //xhr.setRequestHeader('header', 'value');
+            //     xhr.onreadystatechange = function(){ 
+            //         if(xhr.readyState === 4 && xhr.status === 200){ 
+            //             run = 0;
+            //             console.log("완료후 : ", xhr.responseText);
+            //         }else{ 
+            //             run =0;
+            //             console.log("실패후 : ", xhr.responseText);
+            //         }
+            //     }
+            //     //xhr.setRequestHeader('Content-Type', 'application/json');
+            //     //xhr.getResponseHeader('Access-Control-Allow-Origin','*');
+            //     xhr.send();
+            // }else if(run >= 1)
+            // {
+            //     console.log("작동 중입니다.");
+            // }
+        }
+    </script>

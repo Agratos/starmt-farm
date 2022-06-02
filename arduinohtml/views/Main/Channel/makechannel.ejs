@@ -1,0 +1,56 @@
+<div class="timeline">
+    <link rel="stylesheet" href="/css/main.css">
+    <p id="makechanneltitle">Channel Settings</p>
+    <div id="makechannelform">
+        <form id="channelsave"action="/channelKey" method="post">
+            <div>
+                채널 이름 : 
+                <input type="text" name="channel_name" required="true">
+            </div>
+
+            <div class="makechannelfiled">
+                <label for="field1">field1 : </label>
+                <input type="text" name="field1_name" id="field1_name" value="field 1">
+                <input type="checkbox" name="index" id="index1" value="1" onClick="checkDisable()" checked>
+            </div>
+            <div class="makechannelfiled">
+                <label for="field2">field2 : </label>
+                <input type="text" name="field2_name" id="field2_name" disabled>
+                <input type="checkbox" name="index" id="index2" value="2" onClick="checkDisable()">
+            </div>
+            <div class="makechannelfiled">
+                <label for="field3">field3 : </label>
+                <input type="text" name="field3_name" id="field3_name" disabled>
+                <input type="checkbox" name="index" id="index3" value="3" onClick="checkDisable()">
+            </div>
+            <div class="makechannelfiled">
+                <label for="field4">field4 : </label>
+                <input type="text" name="field4_name" id="field4_name" disabled>
+                <input type="checkbox" name="index" id="index4" value="4" onClick="checkDisable()">
+            </div>
+            <div class="makechannelfiled">
+                <label for="field5">field5 : </label>
+                <input type="text" name="field5_name" id="field5_name" disabled>
+                <input type="checkbox" name="index" id="index5" value="5" onClick="checkDisable()">
+            </div>
+            <div class="makechannelfiled">
+                <label for="field6">field6 : </label>
+                <input type="text" name="field6_name" id="field6_name" disabled>
+                <input type="checkbox" name="index" id="index6" value="6" onClick="checkDisable()">
+            </div>
+            <div class="makechannelfiled">
+                <label for="field7">field7 : </label>
+                <input type="text" name="field7_name" id="field7_name" disabled>
+                <input type="checkbox" name="index" id="index7" value="7" onClick="checkDisable()">
+            </div>
+            <div class="makechannelfiled">
+                <label for="field8">field8 : </label>
+                <input type="text" name="field8_name" id="field8_name" disabled>
+                <input type="checkbox" name="index" id="index8" value="8" onClick="checkDisable()">
+            </div>
+            <button id="btn" type="submit" >채널 생성</button>
+        </form>
+        
+    </div>
+</div>
+

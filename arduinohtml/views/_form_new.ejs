@@ -1,0 +1,51 @@
+<div class="container">
+    <div class="form-group">
+        <label for="title">title</label>
+        <input required type="text" name="title" id="title" value="<%= community.title %>">
+    </div>
+    <div class="form-group">
+        <label for="thumbnailURL">thumbnailURL</label>
+        <input required type="text" name="thumbnailURL" id="thumbnailURL" value="<%= community.title %>">
+    </div>
+    <div class="form-group">
+        <label for="keyword">keyword</label>
+        <input required type="text" name="keyword" id="keyword" value="<%= community.title %>">
+    </div>
+    <div class="form-group">
+        <label for="description">description</label>
+        <input required type="text" name="description" id="description" value="<%= community.title %>">
+    </div>
+    <div class="form-group">
+        <label for="markdown">markdown</label>
+        <textarea required name="markdown" id="markdown"><%= community.markdown %></textarea>
+    </div>
+
+    <button><a href="/community">취소</a></button>
+<button type="submit">저장 </button>
+<script>
+    function preview(){
+        var preData = { 'markdown' : document.getElementById("markdown").value }
+        
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/preview'); 
+        xhr.setRequestHeader('Content-type', "application/json");
+        xhr.send(JSON.stringify(preData));   
+        
+        xhr.addEventListener('load', function(){
+            console.log(xhr.responseText);
+            document.getElementById("preview").innerHTML = xhr.responseText;
+        });
+
+        //preData = JSON.parse(preData);
+
+    }
+</script>
+<button onclick="preview()" type="button">미리보기</button>
+
+</div>
+
+
+<div class="container" >
+    <div id="preview"></div>
+</div>
